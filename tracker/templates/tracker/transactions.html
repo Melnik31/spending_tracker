@@ -1,0 +1,12 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+    <p>Transactions:</p>
+    <ul>
+        {% for transaction in transactions %}
+            <li>{{ transaction.date }} - {{ transaction.store }} - {{ transaction.amount }} - {{ transaction.get_category_display }}</li>
+        {% empty %}
+            <li>No transactions added.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

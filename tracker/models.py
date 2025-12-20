@@ -24,10 +24,18 @@ class Transaction(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default=CATEGORY_OTHER)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.store} - {self.amount} on {self.date}"
+
     
     
 
-    class Income(models.Model):
-        source = models.CharField(max_length=100)
-        amount = models.DecimalField(max_digits=10, decimal_places=2)
-        owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    
+class Income(models.Model):
+    source = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.source} - {self.amount}"

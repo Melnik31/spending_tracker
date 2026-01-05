@@ -1,0 +1,11 @@
+{% extends "tracker/base.html" %}
+
+{% block content %}
+    <p><a href ="{% url 'tracker:transaction' transaction.id %}">{{ transaction.store }}</a></p>
+    <h2>Edit Transaction:</h2>
+    <form action="{% url 'tracker:edit_transaction' transaction.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
+{% endblock content %}

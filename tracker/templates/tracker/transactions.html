@@ -4,9 +4,12 @@
     <p>Transactions:</p>
     <ul>
         {% for transaction in transactions %}
-            <li>{{ transaction.date }} - {{ transaction.store }} - {{ transaction.amount }} - {{ transaction.get_category_display }}</li>
+            <li>{{ transaction.date }} - {{ transaction.store }} - {{ transaction.amount }}</li>
+            <a href ="{% url 'tracker:transaction' transaction.id %}">View Details</a>
         {% empty %}
             <li>No transactions added.</li>
         {% endfor %}
     </ul>
+    <a href="{% url 'tracker:add_transaction' %}">add transaction</a>
+    <h2>Total Spent: {{ total_spent }}</h2>
 {% endblock content %}

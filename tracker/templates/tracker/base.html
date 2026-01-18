@@ -2,6 +2,22 @@
     <a href="{% url 'tracker:index' %}">Simple Budget</a>
     -
     <a href="{% url 'tracker:transactions' %}">Transactions</a>
+    -
+    {% if user.is_authenticated %}
+        Hello, {{ user.username }}!
+    {% else %}
+        <a href="{% url 'accounts:register' %}">Register</a>
+        -
+        <a href="{% url 'accounts:login' %}">Log in</a>
+    {% endif %}
 </p>
 
 {% block content%}{% endblock content%}
+
+{% if user.is_authenticated %}
+    <hr />
+    <form action="{% url 'accounts:logout' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Log out" />
+    </form>
+{% endif %}

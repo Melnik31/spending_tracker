@@ -122,3 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+#My setttngs
+LOGIN_REDIRECT_URL = 'tracker:index'
+LOGOUT_REDIRECT_URL = 'tracker:index'
+LOGIN_URL = 'accounts:login'

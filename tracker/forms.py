@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Transaction
+from .models import Transaction, Income
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -10,4 +10,13 @@ class TransactionForm(forms.ModelForm):
             'store': 'Store Name',
             'amount': 'Amount Spent',
             'category': 'Category',
+        }
+
+class IncomeForm(forms.ModelForm):
+    class Meta:
+        model = Income
+        fields = ['source', 'amount']
+        labels = {
+            'source': 'Source of income',
+            'amount': 'Income amount'
         }

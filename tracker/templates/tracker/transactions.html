@@ -6,10 +6,13 @@
         {% for transaction in transactions %}
             <li>{{ transaction.date }} - {{ transaction.store }} - {{ transaction.amount }}</li>
             <a href ="{% url 'tracker:transaction' transaction.id %}">View Details</a>
+            <a href ="{% url 'tracker:delete_transaction' transaction.id %}">Delete</a>
         {% empty %}
             <li>No transactions added.</li>
         {% endfor %}
     </ul>
-    <a href="{% url 'tracker:add_transaction' %}">add transaction</a>
+    <a href="{% url 'tracker:add_transaction' %}">Add transaction</a>
     <h2>Total Spent: {{ total_spent }}</h2>
+    <hr>
+    <h2>Balance: {{ balance }}</h2>
 {% endblock content %}

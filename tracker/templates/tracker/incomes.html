@@ -1,0 +1,16 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+    <p>Incomes:</p>
+    <ul>
+        {% for income in incomes %}
+            <li>{{ income.source }} - {{ income.amount }}</li>
+            <a href ='{% url 'tracker:edit_income' income.id %}'>Edit</a>
+            <a href ="{% url 'tracker:delete_income' income.id %}">Delete</a>
+        {% empty %}
+            <li>No incomes added.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'tracker:add_income' %}">Add Income</a>
+    <h2>Total Income: {{ total_income }}</h2>
+{% endblock content %}

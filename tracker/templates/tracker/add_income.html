@@ -1,0 +1,11 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+    <p>Add new Income:</p>
+
+    <form action="{% url 'tracker:add_income' %}" method='post'>
+        {% csrf_token %} 
+        {{ form.as_div }}
+        <button name="sibmit">Add Income</button>
+    </form>
+{% endblock content %}

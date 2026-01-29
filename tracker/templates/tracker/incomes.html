@@ -1,7 +1,36 @@
 {% extends 'tracker/base.html' %}
 
-{% block content %}
-    <p>Incomes:</p>
+{% block page_header %}
+    <h2>Incomes:</h2>
+{% endblock page_header %}
+
+{% block content %} 
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Source</th>
+                <th scope="col">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for income in incomes %}
+            <tr>
+                <td>{{ income.source }}</td>
+                <td>{{ income.amount }}</td>
+                <td><a class="btn btn-primary" href="{% url 'tracker:edit_income' income.id %}">Edit</a></td>
+                <td><a class="btn btn-danger" href="{% url 'tracker:delete_income' income.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        <a class="btn btn-success mb-4" href="{% url 'tracker:add_income' %}">Add Income</a>
+    </div>
+    <h2>Total Income: {{ total_income }}</h2>
+    
+{% endblock content %}
+<!--
+<p>Incomes:</p>
     <ul>
         {% for income in incomes %}
             <li>{{ income.source }} - {{ income.amount }}</li>
@@ -13,4 +42,4 @@
     </ul>
     <a href="{% url 'tracker:add_income' %}">Add Income</a>
     <h2>Total Income: {{ total_income }}</h2>
-{% endblock content %}
+-->

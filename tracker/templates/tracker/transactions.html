@@ -1,17 +1,36 @@
 {% extends 'tracker/base.html' %}
 
-{% block content %}
-    <p>Transactions:</p>
-    <ul>
-        {% for transaction in transactions %}
-            <li>{{ transaction.date }} - {{ transaction.store }} - {{ transaction.amount }}</li>
-            <a href ="{% url 'tracker:transaction' transaction.id %}">View Details</a>
-            <a href ="{% url 'tracker:delete_transaction' transaction.id %}">Delete</a>
-        {% empty %}
-            <li>No transactions added.</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'tracker:add_transaction' %}">Add transaction</a>
+{% block page_header %}
+    <h2>Transactions:</h2>
+{% endblock page_header %}
+
+
+{% block content %}   
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Store</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.date }}</td>
+                <td>{{ transaction.store }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.get_category_display }}</td>
+                <td><a class="btn btn-primary" href="{% url 'tracker:transaction' transaction.id %}">View Details</a></td>
+                <td><a class="btn btn-danger" href="{% url 'tracker:delete_transaction' transaction.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        <a class="btn btn-success mb-4" href="{% url 'tracker:add_transaction' %}">Add transaction</a>
+    </div>
     <h2>Total Spent: {{ total_spent }}</h2>
     <hr>
     <h2>Balance: {{ balance }}</h2>

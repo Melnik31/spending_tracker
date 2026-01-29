@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'playground',
     'tracker',
     'accounts',
+
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [

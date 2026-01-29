@@ -1,12 +1,20 @@
 {% extends 'tracker/base.html' %}
 
+{% block page_header %}
+    <h2>Transaction Details:</h2>
+{% endblock page_header %}
+
 {% block content%}
-    <h2>Transaction:</h2>
-    <ul>
-        <li>Date: {{ transaction.date }}</li>
-        <li>Store: {{ transaction.store }}</li>
-        <li>Amount: {{ transaction.amount }}</li>
-        <li>Category: {{ transaction.get_category_display }}</li>
-    </ul>
-    <p><a href="{% url 'tracker:edit_transaction' transaction.id %}">Edit Transaction</a></p>
+    {% if transaction %}
+        <ul>
+            <li>Date: {{ transaction.date }}</li>
+            <li>Store: {{ transaction.store }}</li>
+            <li>Amount: {{ transaction.amount }}</li>
+            <li>Category: {{ transaction.get_category_display }}</li>
+        </ul>
+        <p><a class="btn btn-primary" href="{% url 'tracker:edit_transaction' transaction.id %}">Edit Transaction</a></p>
+    {% else %}
+        <p>Transaction not found.</p>
+    {% endif %}
 {% endblock content%}
+

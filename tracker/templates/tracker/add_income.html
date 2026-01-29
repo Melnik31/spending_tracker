@@ -1,6 +1,24 @@
 {% extends 'tracker/base.html' %}
 
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+    <h2>Add New Income:</h2>
+{% endblock page_header %}
+
 {% block content %}
+    {% if form.errors  %}
+        <p>Invalid format.</p>
+    {% endif %}
+    <form action="{% url 'tracker:add_income' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button_type="submit" content="Add Income" %}
+    </form>
+
+{% endblock content %}
+
+<!--
     <p>Add new Income:</p>
 
     <form action="{% url 'tracker:add_income' %}" method='post'>
@@ -8,4 +26,4 @@
         {{ form.as_div }}
         <button name="sibmit">Add Income</button>
     </form>
-{% endblock content %}
+-->

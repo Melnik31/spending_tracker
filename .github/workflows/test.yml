@@ -40,7 +40,7 @@ jobs:
 
       - name: Grant test_user privileges
         run: |
-          mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'test_user'@'%'; FLUSH PRIVILEGES;"
+          mysql -h 127.0.0.1 -P 3306 -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'test_user'@'%'; FLUSH PRIVILEGES;"
 
       - name: Run migration
         run: python manage.py migrate --noinput

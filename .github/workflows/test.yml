@@ -2,13 +2,12 @@ name: Quality Assurance
 
 on:
   push:
-    pull_request:
+  pull_request:
 
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
 
     services:
       mysql:
@@ -26,31 +25,28 @@ jobs:
           --health-timeout=5s
           --health-retries=3
 
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.1'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y default-libmysqlclient-dev
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-
-      steps:
-        - uses: actions/checkout@v4
-        - name: Set up Python
-          uses: actions/setup-python@v5
-          with:
-            python-version: '3.13.1'
-        - name: Install dependencies
-          run: |
-            sudo apt-get update
-            sudo apt-get install -y defualt-libmysqlclient-dev
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-
-        - name: Run migration
-          run: |
-            python manage.py migrate --noinput
-          env:
+      - name: Run migration
+        run: python manage.py migrate --noinput
+        env:
           DJANGO_SETTINGS_MODULE: budget.settings_test
 
-        - name: Run tests
-          run: pytest           
-          env:
-            DJANGO_SETTINGS_MODULE: budget.settings_test
+      - name: Run tests
+        run: pytest           
+        env:
+          DJANGO_SETTINGS_MODULE: budget.settings_test
 
 
       

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class Transaction(models.Model):
     CATEGORY_GROCERIES = 'GR'
@@ -27,6 +28,10 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.store} - {self.amount} on {self.date}"
+    
+    def clean(self):
+        if self.amount < 0:
+            raise ValidationError('Amount must be non-negative.')
 
     
     
@@ -41,3 +46,7 @@ class Income(models.Model):
 
     def __str__(self):
         return f"{self.source} - {self.amount}"
+    
+    def clean(self):
+        if self.amount < 0:
+            raise ValidationError('Amount must be non-negative.')

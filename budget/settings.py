@@ -81,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'budgetdb',
-        'Host': 'localhost',
+        'HOST': 'localhost',
         'USER': 'root',
         'PASSWORD': ''
 

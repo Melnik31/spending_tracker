@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
+from tracker.filters import TransactionFilter
 
 from .models import Transaction, Income
 from .forms import TransactionForm, IncomeForm
@@ -11,15 +12,34 @@ def index(request):
 
 @login_required
 def transactions(request):
-    transactions = Transaction.objects.filter(owner=request.user).order_by('-date')
-    total_spent = Transaction.objects.filter(owner=request.user).aggregate(Sum('amount'))['amount__sum'] or 0
+    base_qs = Transaction.objects.filter(
+        owner=request.user
+    ).order_by('-date')
+
+    transactions_filter = TransactionFilter(
+        request.GET,
+        queryset=base_qs
+    )
+
+    filtered_qs = transactions_filter.qs
+
+    total_spent_filtered = filtered_qs.aggregate(
+        Sum('amount')
+    )['amount__sum'] or 0
+
+    total_spent_all = base_qs.aggregate(
+        Sum('amount')
+    )['amount__sum'] or 0
+
     income = Income.objects.filter(owner=request.user).first()
     income_amount = income.amount if income else 0
-    balance = income_amount - total_spent
+    balance = income_amount - total_spent_all
 
     context = {
-        'transactions': transactions,
-        'total_spent': total_spent,
+        'filter': transactions_filter,
+        'transactions': filtered_qs,
+        'total_spent_filtered': total_spent_filtered,
+        'total_spent_all': total_spent_all,
         'balance': balance,
         }
     return render(request, 'tracker/transactions.html', context)

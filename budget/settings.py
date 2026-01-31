@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'playground',
     'tracker',
     'accounts',
+    'django_filters',
 
     'django_bootstrap5',
 ]

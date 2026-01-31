@@ -6,6 +6,18 @@
 
 
 {% block content %}   
+    
+    <form method="GET" class="row row-cols-lg-auto g-3 align-items-center mb-4">
+        {% for fields in filter.form %}
+            <div class="col-12">
+                {{ fields }}
+            </div>
+        {% endfor %}
+        <div class="col-12">    
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>            
+    </form>
+
     <table class="table">
         <thead>
             <tr>
@@ -31,7 +43,9 @@
     <div class="d-flex justify-content-center align-items-center">
         <a class="btn btn-success mb-4" href="{% url 'tracker:add_transaction' %}">Add transaction</a>
     </div>
-    <h2>Total Spent: {{ total_spent }}</h2>
+    <h2>Total (all categories): {{ total_spent_all }}</h2>
+    <hr>
+    <h2>Total (filtered): {{ total_spent_filtered }}</h2>
     <hr>
     <h2>Balance: {{ balance }}</h2>
 {% endblock content %}

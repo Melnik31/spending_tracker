@@ -40,12 +40,49 @@
             {% endfor %}
         </tbody>
     </table>
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex gap-2 justify-content-center align-items-center">
         <a class="btn btn-success mb-4" href="{% url 'tracker:add_transaction' %}">Add transaction</a>
+        
     </div>
     <h2>Total (all categories): {{ total_spent_all }}</h2>
     <hr>
     <h2>Total (filtered): {{ total_spent_filtered }}</h2>
     <hr>
     <h2>Balance: {{ balance }}</h2>
+
+    <h3>
+        Spending chart
+        {% if month_name %}
+        - {{ month_name }} {{ selected_year }}
+        {% endif %} 
+        
+    </h3>
+
+    <canvas id="spendingChart" width="400" height="200"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('spendingChart').getContext('2d');
+        const spendingChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_labels|safe }},
+                datasets: [{
+                    label: 'Total Spent',
+                    data: {{ chart_totals|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 {% endblock content %}

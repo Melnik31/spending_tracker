@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 from django.contrib.auth.decorators import login_required
 from tracker.filters import TransactionFilter
-from datetime import datetime
+import json
+import calendar
+
 
 
 from .models import Transaction, Income
@@ -37,12 +40,33 @@ def transactions(request):
     income_amount = income.amount if income else 0
     balance = income_amount - total_spent_all
 
+    # Prepare data for Chart.js
+    data = (
+        filtered_qs
+        .annotate(month=TruncMonth('date'))
+        .values('month','date')
+        .annotate(total=Sum('amount'))
+        .order_by('month')
+    )
+
+    chart_labels = [entry['month'].strftime('%Y-%m') for entry in data]
+    chart_totals = [float(entry['total']) for entry in data]
+
+    slected_month = transactions_filter.data.get('month')
+    selected_year = transactions_filter.data.get('year')
+
+    month_name = calendar.month_name[int(slected_month)] if slected_month else 'All Months'
+
     context = {
         'filter': transactions_filter,
         'transactions': filtered_qs,
         'total_spent_filtered': total_spent_filtered,
         'total_spent_all': total_spent_all,
         'balance': balance,
+        'chart_labels': json.dumps(chart_labels),
+        'chart_totals': json.dumps(chart_totals),
+        'month_name': month_name,
+        'selected_year': selected_year,
         }
     return render(request, 'tracker/transactions.html', context)
 
@@ -142,5 +166,6 @@ def edit_income(request, income_id):
 
 
         
+               
         
     

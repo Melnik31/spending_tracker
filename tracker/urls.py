@@ -24,4 +24,5 @@ urlpatterns = [
     path('incomes/', views.incomes, name='incomes'),
     #adding income
     path('add_income/', views.add_income, name='add_income'),
+
 ]

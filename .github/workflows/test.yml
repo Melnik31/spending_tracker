@@ -10,34 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgress:
+      postgres:
         image: postgres:16
         env:
-        POSTGRES_DB: test_db
-        POSTGRES_USER: test_user
-        POSTGRES_PASSWORD: test_pass
-      ports:
-        - 5432:5432
-      options: >-
-        --health-cmd="pg_isready -U test_user"
-        --health-interval=10s
-        --health-timeout=5s
-        --health-retries=5
+          POSTGRES_DB: test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U test_user"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13.1'
+          python-version: '3.12'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Grant test_user privileges
-        run: |
-          mysql -h 127.0.0.1 -P 3306 -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'test_user'@'%'; FLUSH PRIVILEGES;"
 
       - name: Run migration
         run: python manage.py migrate --noinput

@@ -44,11 +44,11 @@
         <a class="btn btn-success mb-4" href="{% url 'tracker:add_transaction' %}">Add transaction</a>
         
     </div>
-    <h2>Total (all categories): {{ total_spent_all }}</h2>
+    <h2>Total (all categories): {{ total_spent_all | floatformat:2 }}</h2>
     <hr>
-    <h2>Total (filtered): {{ total_spent_filtered }}</h2>
+    <h2>Total (filtered): {{ total_spent_filtered | floatformat:2 }}</h2>
     <hr>
-    <h2>Balance: {{ balance }}</h2>
+    <h2>Balance: {{ balance | floatformat:2 }}</h2>
 
     <h3>
         Spending chart

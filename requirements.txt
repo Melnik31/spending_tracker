@@ -1,7 +1,7 @@
 asgiref==3.11.0
 diff-match-patch==20241021
 dj-database-url==3.1.0
-Django==6.0
+Django==5.2.11
 django-bootstrap5==26.1
 django-filter==25.2
 django-import-export==4.4.0
